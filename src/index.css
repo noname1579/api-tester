@@ -3,3 +3,7 @@
 .container {
   margin: 0 auto;
 }
+
+body {
+  background: rgb(243, 242, 242);
+}

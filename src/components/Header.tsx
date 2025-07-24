@@ -2,7 +2,7 @@ import { Send, Zap } from "lucide-react"
 
 const Header = () => {
   return ( 
-    <div className="shadow-sm">
+    <div className="shadow-sm bg-white">
       <div className="container flex items-center justify-between">
         <div className="items-center flex h-18">
           <Zap color="#166ffe" size={35} />
