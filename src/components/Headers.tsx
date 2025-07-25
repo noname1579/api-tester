@@ -1,42 +1,41 @@
-import { useState } from "react"
 import { Plus, X } from "lucide-react"
+import type { Header as HeaderType } from "../types/types"
 
-interface Header {
-  id: string;
-  key: string;
-  value: string;
-  enabled: boolean;
+interface HeadersProps {
+  headers: HeaderType[]
+  onHeadersChange: (headers: HeaderType[]) => void
 }
 
-const Headers = () => {
-  const [headers, setHeaders] = useState<Header[]>([])
-
+const Headers = ({ headers, onHeadersChange }: HeadersProps) => {
   const addHeader = () => {
-    const newHeader: Header = {
+    const newHeader: HeaderType = {
       id: Date.now().toString(),
       key: '',
       value: '',
       enabled: true,
     }
-    setHeaders([...headers, newHeader])
+    onHeadersChange([...headers, newHeader])
   }
 
-  const updateHeader = (id: string, field: keyof Header, value: string | boolean) => {
-    setHeaders(
+  const updateHeader = (id: string, field: keyof HeaderType, value: string | boolean) => {
+    onHeadersChange(
       headers.map(h => (h.id === id ? { ...h, [field]: value } : h))
     )
   }
 
   const removeHeader = (id: string) => {
-    setHeaders(headers.filter(h => h.id !== id))
+    onHeadersChange(headers.filter(h => h.id !== id))
   }
 
   return (  
     <div className="block">
-      <div className="bg-white mt-12 border-blue-500 border-2 rounded-lg px-5 pt-6 pb-14 w-250">
+      <div className="bg-white mt-6 border border-gray-200 rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">Заголовки</h2>
-          <button onClick={addHeader} className="flex items-center gap-2 px-3 py-1.5 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-colors duration-200">
+          <button 
+            onClick={addHeader}
+            className="flex items-center gap-2 px-3 py-1.5 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-colors"
+          >
             <Plus className="w-4 h-4" />
             Добавить заголовок
           </button>
@@ -72,7 +71,7 @@ const Headers = () => {
                 />
                 <button
                   onClick={() => removeHeader(header.id)}
-                  className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors duration-200"
+                  className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>

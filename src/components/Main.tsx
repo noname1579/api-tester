@@ -1,21 +1,11 @@
 import { Globe } from "lucide-react"
 import Headers from "./Headers"
-import Response from "./Response"
 import History from "./History"
-import { useState } from "react"
+import type { HttpMethod, Header as HeaderType, ApiRequest } from "../types/types"
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS'
+const HTTP_METHODS: HttpMethod[] = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']
 
-interface Header {
-  id: string;
-  key: string;
-  value: string;
-  enabled: boolean;
-}
-
-const HTTP_Methods: HttpMethod[] = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']
-
-const Methods_Color = {
+const METHODS_COLOR: Record<HttpMethod, string> = {
   GET: 'bg-green-500 hover:bg-green-600',
   POST: 'bg-blue-500 hover:bg-blue-600',
   PUT: 'bg-orange-500 hover:bg-orange-600',
@@ -25,54 +15,73 @@ const Methods_Color = {
   OPTIONS: 'bg-indigo-500 hover:bg-indigo-600'
 }
 
-const Main = () => {
-  const [method, setMethod] = useState<HttpMethod>('GET')
-  const [url, setUrl] = useState('')
-  const [isFocused, setIsFocused] = useState(false)
+interface MainProps {
+  method: HttpMethod
+  url: string
+  headers: HeaderType[]
+  history: ApiRequest[]
+  onMethodChange: (method: HttpMethod) => void
+  onUrlChange: (url: string) => void
+  onHeadersChange: (headers: HeaderType[]) => void
+  onSelectRequest: (request: ApiRequest) => void
+  onClearHistory: () => void
+}
 
+const Main = ({
+  method,
+  url,
+  headers,
+  history,
+  onMethodChange,
+  onUrlChange,
+  onHeadersChange,
+  onSelectRequest,
+  onClearHistory
+}: MainProps) => {
   return ( 
-    <div className="container">
-      <div className="flex">
-        <div className="bg-white mt-12 border-blue-500 border-2 rounded-lg px-5 pt-6 pb-14 w-250">
-          <div className="flex items-center">
-            <Globe color="gray" />
-            <h2 className="ml-3 text-lg font-semibold">Запрос</h2>
-          </div>
-          <div className="mt-6">
-            <div className="flex gap-3">
-              <div className="relative">
-                <select
-                  value={method}
-                  onChange={(e) => setMethod(e.target.value as HttpMethod)}
-                  className={`px-4 py-2 text-white font-medium rounded-md transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 ${Methods_Color[method]} focus:ring-${method === 'GET' ? 'green' : method === 'POST' ? 'blue' : method === 'PUT' ? 'orange' : method === 'DELETE' ? 'red' : method === 'PATCH' ? 'purple' : method === 'HEAD' ? 'gray' : 'indigo'}-500`}
-                >
-                  {HTTP_Methods.map(m => (
-                    <option key={m} value={m}>{m}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 peer"
-                />
-                <label className={`absolute left-3 top-2 px-1 text-gray-500 transition-all duration-200 pointer-events-none
-                  ${isFocused || url ? 'text-xs -top-3 bg-white text-blue-500' : ''}
-                  peer-focus:text-xs peer-focus:-top-3 peer-focus:bg-white peer-focus:text-blue-500`}>
-                  Введите URL
-                </label>
+    <div className="container mx-auto px-4">
+      <div className="flex flex-col lg:flex-row">
+        <div className="flex-1">
+          <div className="bg-white mt-6 border border-gray-200 rounded-lg p-6">
+            <div className="flex items-center">
+              <Globe className="text-gray-400 w-5 h-5" />
+              <h2 className="ml-2 text-lg font-semibold">Запрос</h2>
+            </div>
+            <div className="mt-4">
+              <div className="flex gap-3">
+                <div className="relative">
+                  <select
+                    value={method}
+                    onChange={(e) => onMethodChange(e.target.value as HttpMethod)}
+                    className={`px-4 py-2 text-white font-medium rounded-md ${METHODS_COLOR[method]}`}
+                  >
+                    {HTTP_METHODS.map(m => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={(e) => onUrlChange(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Введите URL"
+                  />
+                </div>
               </div>
             </div>
           </div>
+          
+          <Headers headers={headers} onHeadersChange={onHeadersChange} />
         </div>
-        <History />
+        
+        <History 
+          history={history}
+          onSelectRequest={onSelectRequest}
+          onClearHistory={onClearHistory}
+        />
       </div>
-      <Headers />
-      <Response />
     </div>
   )
 }
