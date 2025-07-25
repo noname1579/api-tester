@@ -7,3 +7,7 @@
 body {
   background: rgb(243, 242, 242);
 }
+
+input:focus {
+  outline: none;
+}
