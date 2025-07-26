@@ -29,12 +29,12 @@ const Headers = ({ headers, onHeadersChange }: HeadersProps) => {
 
   return (  
     <div className="block">
-      <div className="bg-white mt-6 border border-gray-200 rounded-lg p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-white mt-4 sm:mt-6 border border-gray-200 rounded-lg p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <h2 className="text-lg font-semibold">Заголовки</h2>
           <button 
             onClick={addHeader}
-            className="flex items-center gap-2 px-3 py-1.5 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-colors"
+            className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-colors text-sm sm:text-base"
           >
             <Plus className="w-4 h-4" />
             Добавить заголовок
@@ -42,36 +42,40 @@ const Headers = ({ headers, onHeadersChange }: HeadersProps) => {
         </div>
         
         {headers.length === 0 ? (
-          <div className="mt-3 text-gray-600">
+          <div className="mt-3 text-gray-600 text-sm sm:text-base">
             <p>Заголовки не добавлены</p>
           </div>
         ) : (
           <div className="space-y-3">
             {headers.map((header) => (
-              <div key={header.id} className="flex gap-3 items-center">
-                <input
-                  type="checkbox"
-                  checked={header.enabled}
-                  onChange={(e) => updateHeader(header.id, 'enabled', e.target.checked)}
-                  className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                />
+              <div key={header.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                <div className="flex items-center w-full sm:w-auto">
+                  <input
+                    type="checkbox"
+                    checked={header.enabled}
+                    onChange={(e) => updateHeader(header.id, 'enabled', e.target.checked)}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 mr-2"
+                  />
+                  <span className="sm:hidden text-sm">Активен</span>
+                </div>
+                
                 <input
                   type="text"
                   value={header.key}
                   onChange={(e) => updateHeader(header.id, 'key', e.target.value)}
                   placeholder="Имя заголовка"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
                 <input
                   type="text"
                   value={header.value}
                   onChange={(e) => updateHeader(header.id, 'value', e.target.value)}
                   placeholder="Значение заголовка"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
                 <button
                   onClick={() => removeHeader(header.id)}
-                  className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                  className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors self-end sm:self-auto"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -83,5 +87,5 @@ const Headers = ({ headers, onHeadersChange }: HeadersProps) => {
     </div>
   )
 }
- 
+
 export default Headers

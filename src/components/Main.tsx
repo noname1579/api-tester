@@ -39,21 +39,21 @@ const Main = ({
   onClearHistory
 }: MainProps) => {
   return ( 
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-3 sm:px-4">
       <div className="flex flex-col lg:flex-row">
         <div className="flex-1">
-          <div className="bg-white mt-6 border border-gray-200 rounded-lg p-6">
+          <div className="bg-white mt-4 sm:mt-6 border border-gray-200 rounded-lg p-4 sm:p-6">
             <div className="flex items-center">
-              <Globe className="text-gray-400 w-5 h-5" />
-              <h2 className="ml-2 text-lg font-semibold">Запрос</h2>
+              <Globe className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+              <h2 className="ml-2 text-base sm:text-lg font-semibold">Запрос</h2>
             </div>
-            <div className="mt-4">
-              <div className="flex gap-3">
+            <div className="mt-3 sm:mt-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <div className="relative">
                   <select
                     value={method}
                     onChange={(e) => onMethodChange(e.target.value as HttpMethod)}
-                    className={`px-4 py-2 text-white font-medium rounded-md ${METHODS_COLOR[method]}`}
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-white font-medium rounded-md text-sm sm:text-base ${METHODS_COLOR[method]}`}
                   >
                     {HTTP_METHODS.map(m => (
                       <option key={m} value={m}>{m}</option>
@@ -65,7 +65,7 @@ const Main = ({
                     type="text"
                     value={url}
                     onChange={(e) => onUrlChange(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                     placeholder="Введите URL"
                   />
                 </div>
