@@ -1,4 +1,4 @@
-import { Plus, X } from "lucide-react"
+import { MessageSquareText, Plus, X } from "lucide-react"
 import type { Header as HeaderType } from "../types/types"
 
 interface HeadersProps {
@@ -31,7 +31,11 @@ const Headers = ({ headers, onHeadersChange }: HeadersProps) => {
     <div className="block">
       <div className="bg-white mt-4 sm:mt-6 border border-gray-200 rounded-lg p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <h2 className="text-lg font-semibold">Заголовки</h2>
+          <div className="flex items-center">
+            <MessageSquareText className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+            <h2 className="ml-2 text-lg font-semibold">Заголовки</h2>
+          </div>
+          
           <button 
             onClick={addHeader}
             className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-colors text-sm sm:text-base"
@@ -75,7 +79,7 @@ const Headers = ({ headers, onHeadersChange }: HeadersProps) => {
                 />
                 <button
                   onClick={() => removeHeader(header.id)}
-                  className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors self-end sm:self-auto"
+                  className="cursor-pointer p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors self-end sm:self-auto"
                 >
                   <X className="w-4 h-4" />
                 </button>

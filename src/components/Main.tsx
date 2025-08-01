@@ -53,7 +53,7 @@ const Main = ({
                   <select
                     value={method}
                     onChange={(e) => onMethodChange(e.target.value as HttpMethod)}
-                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-white font-medium rounded-md text-sm sm:text-base ${METHODS_COLOR[method]}`}
+                    className={`cursor-pointer px-3 py-1.5 sm:px-4 sm:py-2 text-white font-medium rounded-md text-sm sm:text-base ${METHODS_COLOR[method]}`}
                   >
                     {HTTP_METHODS.map(m => (
                       <option key={m} value={m}>{m}</option>

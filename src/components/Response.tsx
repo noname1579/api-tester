@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react"
+import { CheckCircle, XCircle, Clock, AlertCircle, MessageSquareReply } from "lucide-react"
 import type { ApiResponse, ApiError } from "../types/types"
 import { PropagateLoader } from "react-spinners"
 
@@ -28,7 +28,10 @@ const Response = ({ response, error, loading }: ResponseProps) => {
 
   return (  
     <div className="bg-white mt-4 sm:mt-6 border border-gray-200 rounded-lg p-4 sm:p-6">
-      <h2 className="text-base sm:text-lg font-semibold">Ответ</h2>
+      <div className="flex items-center">
+        <MessageSquareReply className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+        <h2 className="ml-2 text-base sm:text-lg font-semibold">Ответ</h2>
+      </div>
       
       {loading ? (
         <div className="flex justify-center items-center py-8 sm:py-12">
