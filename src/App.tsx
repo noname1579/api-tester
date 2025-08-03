@@ -82,7 +82,7 @@ export default function App() {
           onMethodChange={setMethod}
           onUrlChange={setUrl}
           onHeadersChange={setHeaders}
-          onLoadRequest={loadRequest}
+          onSelectRequest={loadRequest}
           onClearHistory={clearHistory}
           history={history}
         />
