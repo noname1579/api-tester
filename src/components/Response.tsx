@@ -1,5 +1,6 @@
 import { CheckCircle, XCircle, Clock, AlertCircle, MessageSquareReply } from "lucide-react"
-import type { ApiResponse, ApiError } from "../types/types"
+import type { ApiResponse } from "../types/types"
+import type { ApiError } from "../types/apiClient"
 import { PropagateLoader } from "react-spinners"
 
 interface ResponseProps {

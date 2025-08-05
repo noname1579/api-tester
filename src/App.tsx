@@ -1,9 +1,26 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Header from './components/Header'
 import Main from './components/Main'
 import Response from './components/Response'
 import { makeRequest, ApiError } from './types/apiClient'
 import type { HttpMethod, Header as HeaderType, ApiRequest, ApiResponse } from './types/types'
+
+const loadHistoryFromStorage = (): ApiRequest[] => {
+  try {
+    const data = localStorage.getItem('apiTesterHistory')
+    return data ? JSON.parse(data) : []
+  } catch {
+    return []
+  }
+}
+
+const saveHistoryToStorage = (history: ApiRequest[]) => {
+  try {
+    localStorage.setItem('apiTesterHistory', JSON.stringify(history))
+  } catch (error) {
+    console.error('ошибка сохранения истории :/ ', error)
+  }
+}
 
 export default function App() {
   const [method, setMethod] = useState<HttpMethod>('GET')
@@ -13,6 +30,15 @@ export default function App() {
   const [error, setError] = useState<ApiError | null>(null)
   const [loading, setLoading] = useState(false)
   const [history, setHistory] = useState<ApiRequest[]>([])
+
+  useEffect(() => {
+    const loadedHistory = loadHistoryFromStorage()
+    setHistory(loadedHistory)
+  }, [])
+
+  useEffect(() => {
+    saveHistoryToStorage(history)
+  }, [history])
 
   const sendRequest = useCallback(async () => {
     if (!url.trim()) {
@@ -43,13 +69,16 @@ export default function App() {
         timestamp: startTime,
       }
 
-      setResponse({
-        ...result,
+      setResponse({ 
+        ...result, 
         duration: Date.now() - startTime,
       })
 
       if (!history.some(r => r.url === url && r.method === method)) {
-        setHistory(prev => [requestData, ...prev.slice(0, 9)])
+        setHistory(prev => {
+          const newHistory = [requestData, ...prev.slice(0, 9)]
+          return newHistory
+        })
       }
     } catch (err) {
       setError(err instanceof ApiError ? err : new ApiError('Неизвестная ошибка', 'network'))
@@ -68,6 +97,7 @@ export default function App() {
 
   const clearHistory = useCallback(() => {
     setHistory([])
+    localStorage.removeItem('apiTesterHistory')
   }, [])
 
   return (
