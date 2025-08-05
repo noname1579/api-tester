@@ -28,7 +28,7 @@ const Response = ({ response, error, loading }: ResponseProps) => {
   }
 
   return (  
-    <div className="bg-white mt-4 sm:mt-6 border border-gray-200 rounded-lg p-4 sm:p-6">
+    <div className="bg-white mt-4 sm:mt-6 border border-gray-200 rounded-lg p-4 sm:p-6 w-full">
       <div className="flex items-center">
         <MessageSquareReply className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
         <h2 className="ml-2 text-base sm:text-lg font-semibold">Ответ</h2>
